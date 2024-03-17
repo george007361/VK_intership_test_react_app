@@ -1,0 +1,1 @@
+export type IStoryNames = 'cat_fact' | 'age_detector';
