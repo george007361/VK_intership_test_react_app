@@ -1,4 +1,4 @@
-export type CatFactData = {
+export type FactResponseData = {
     fact: string;
     lenght: number;
 }

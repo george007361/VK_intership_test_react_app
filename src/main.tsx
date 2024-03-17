@@ -1,16 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import { ConfigProvider, AdaptivityProvider, AppRoot } from '@vkontakte/vkui'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { App } from './App';
+import { QueryClientProvider } from '@tanstack/react-query';
 import '@vkontakte/vkui/dist/vkui.css';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    }
-  }
-});
+import { App, queryClient } from '@app';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>

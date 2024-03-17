@@ -1,24 +1,18 @@
-import { Button, FormItem, FormStatus, Group, Panel, PanelHeader, Textarea, View } from "@vkontakte/vkui";
-import { IStoryNames } from "../types/StoryNames";
-import { useQuery } from "@tanstack/react-query";
-import { CatFactData } from "../types/CatFact";
-import axios from "axios";
 import { useEffect, useRef } from "react";
+import { Button, FormItem, FormStatus, Group, Panel, PanelHeader, Textarea, View } from "@vkontakte/vkui";
 import { Icon20InfoCircleOutline } from "@vkontakte/icons";
 
+import { CatFactStoryName } from "../types/StoryName";
+import { useGetFact } from "../api/useGetFact";
+
 interface CatFactProps {
-    id: IStoryNames;
+    id: CatFactStoryName;
 }
 
 export default function CatFact({ id }: CatFactProps) {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const { isFetching, error, isError, data, refetch } = useQuery({
-        enabled: false,
-        queryKey: ['fact'],
-        queryFn: async ({ signal }) => axios.get<CatFactData>('https://catfact.ninja/fact', { signal }),
-        select: ({ data }) => data.fact,
-    });
+    const { isFetching, error, isError, data, refetch } = useGetFact();
 
     const onGetFactClick = () => {
         refetch();
@@ -52,7 +46,6 @@ export default function CatFact({ id }: CatFactProps) {
                             {error.message}
                         </FormStatus>
                     )}
-
 
                     <FormItem>
                         <Button

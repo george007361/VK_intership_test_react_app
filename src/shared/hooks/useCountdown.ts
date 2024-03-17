@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 type CountdownState = 'initial' | 'inProgress' | 'done' | 'cancelled';
 
-export default function useCountdown(stepMS: number = 1000) {
+export function useCountdown(stepMS: number = 1000) {
     const [count, _setCount] = useState<number>(0);
     const [state, _setState] = useState<CountdownState>('initial');
 

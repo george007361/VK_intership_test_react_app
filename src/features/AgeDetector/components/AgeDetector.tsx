@@ -1,46 +1,31 @@
-import { Icon20InfoCircleOutline } from "@vkontakte/icons";
+import { useCallback, useEffect } from "react";
 import { Button, FormItem, FormStatus, Group, Panel, PanelHeader, SplitCol, SplitLayout, Text, View } from "@vkontakte/vkui";
-import { IStoryNames } from "../types/StoryNames";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Icon20InfoCircleOutline } from "@vkontakte/icons";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useCountdown from "../hooks/useCountdown";
-import ControlledFormItemInput from "./ControlledFormItemInput";
-import { useDebounce } from "../hooks/useDebounce";
-import { useCallback, useEffect } from "react";
-import { ageDetectorFormShema } from "../validation/ageDetectorFormSchema";
-import { AgeDetectorData } from "../types/AgeDetector";
+
+import { useDebounce, useCountdown, ControlledFormInput } from "@shared";
+
+import { REQUEST_FORM_SCHEMA } from "../const/RequestFormSchema";
+import { AgeDetectorStoryName } from "../types/StoryName";
+import { useGetAgeQuery } from "../api/useGetAgeQuery";
 
 interface AgeDetectorProps {
-    id: IStoryNames;
+    id: AgeDetectorStoryName;
 }
-
 
 export default function AgeDetector({ id }: AgeDetectorProps) {
     const counter = useCountdown(1000);
 
     const { control, getValues, handleSubmit } = useForm({
         mode: 'all',
-        resolver: yupResolver(ageDetectorFormShema),
+        resolver: yupResolver(REQUEST_FORM_SCHEMA),
         defaultValues: {
             name: '',
         },
     });
 
-    const { data, isFetching, isLoading, error, isError, refetch } = useQuery({
-        enabled: false,
-        queryKey: ['age', getValues().name],
-        queryFn: async ({ signal }) => {
-            return axios.get<AgeDetectorData>('https://api.agify.io/', {
-                params: {
-                    name: getValues().name,
-                },
-                signal,
-            })
-        },
-        select: ({ data }) => data.age,
-    })
+    const { data, isFetching, isLoading, error, isError, refetch } = useGetAgeQuery(getValues().name);
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         counter.stop();
@@ -95,7 +80,7 @@ export default function AgeDetector({ id }: AgeDetectorProps) {
                         </FormStatus>
                     )}
 
-                    <ControlledFormItemInput
+                    <ControlledFormInput
                         control={control}
                         name='name'
                         FormItemProps={{

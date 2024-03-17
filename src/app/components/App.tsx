@@ -1,15 +1,17 @@
 import React from "react";
+import { usePlatform, useAdaptivityConditionalRender, SplitLayout, PanelHeader, SplitCol, Panel, Epic } from "@vkontakte/vkui";
+
+import { CatFact } from "@features/CatFact";
+import { AgeDetector } from "@features/AgeDetector";
+
+import { StoryNames } from "../types/StoryNames";
 import DesctopSidebar from "./nav/DesctopSidebar";
 import MobileTabbar from "./nav/MobileTabbar";
-import { IStoryNames } from "./types/StoryNames";
-import CatFact from "./pages/CatFact";
-import AgeDetector from "./pages/AgeDetector";
-import { usePlatform, useAdaptivityConditionalRender, SplitLayout, PanelHeader, SplitCol, Panel, Epic } from "@vkontakte/vkui";
 
 export const App = () => {
   const platform = usePlatform();
   const { viewWidth } = useAdaptivityConditionalRender();
-  const [activeStory, setActiveStory] = React.useState<IStoryNames>('cat_fact');
+  const [activeStory, setActiveStory] = React.useState<StoryNames>('cat_facts');
 
   const hasHeader = platform !== 'vkcom';
 
@@ -36,7 +38,7 @@ export const App = () => {
             // )
           }
         >
-          <CatFact id='cat_fact' />
+          <CatFact id='cat_facts' />
           <AgeDetector id='age_detector' />
         </Epic>
       </SplitCol>
