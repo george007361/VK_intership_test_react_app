@@ -1,0 +1,1 @@
+export type CatFactStoryName = 'cat_facts';

@@ -1,0 +1,1 @@
+export type AgeDetectorStoryName = 'age_detector';
